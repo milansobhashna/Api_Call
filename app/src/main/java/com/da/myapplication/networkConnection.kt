@@ -1,10 +1,11 @@
 package com.da.myapplication
 
+import android.app.Activity
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 
-public class networkConnection(val mainActivity: MainActivity) {
+public class networkConnection(val mainActivity: Activity) {
     //region public methods
     fun isConnected(): Boolean {
         val info: NetworkInfo = this.getNetworkInfo()!!
