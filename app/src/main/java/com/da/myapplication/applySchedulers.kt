@@ -5,7 +5,7 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.net.ConnectException
 
-class applySchedulers(val mainActivity: MainActivity) {
+public class applySchedulers(val mainActivity: MainActivity) {
 
     private val mSchedulersTransformer =
         Observable.Transformer { observable: Observable<Any> ->

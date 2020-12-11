@@ -8,9 +8,14 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import rx.subscriptions.CompositeSubscription
 
 
-class ApiConfig(val BASE_URL:String) {
+public class ApiConfig(val BASE_URL:String) {
+
+    val mCompositeSubscription: CompositeSubscription? = CompositeSubscription()
+
+
     private var retrofit: Retrofit? = null
     val IS_DEBUGGABLE = true
 

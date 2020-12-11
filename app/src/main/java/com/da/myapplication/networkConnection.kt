@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 
-class networkConnection(val mainActivity: MainActivity) {
+public class networkConnection(val mainActivity: MainActivity) {
     //region public methods
     fun isConnected(): Boolean {
         val info: NetworkInfo = this.getNetworkInfo()!!
