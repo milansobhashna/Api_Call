@@ -5,14 +5,7 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.net.ConnectException
 
-
-class ApiManager(val mainActivity: MainActivity) {
-    private var apiClass: ApiConfig? = ApiConfig()
-    private var api: API? = apiClass!!.getAPIService()!!
-    fun callLoginApi(i: Int, i1: Int): Observable<CategoryList> {
-        val apiObservable: Observable<CategoryList> = api!!.categoryApi(i, i1)
-        return call(apiObservable).compose(applySchedulers())
-    }
+class applySchedulers(val mainActivity: MainActivity) {
 
     private val mSchedulersTransformer =
         Observable.Transformer { observable: Observable<Any> ->
@@ -24,7 +17,7 @@ class ApiManager(val mainActivity: MainActivity) {
         return mSchedulersTransformer as Observable.Transformer<T, T>
     }
 
-    private fun <T> call(apiObservable: Observable<T>): Observable<T> {
+    fun <T> call(apiObservable: Observable<T>): Observable<T> {
         return apiObservable.startWith(Observable.defer {
             //before calling each api, network connection is checked.
             val netchk = networkConnection(mainActivity)

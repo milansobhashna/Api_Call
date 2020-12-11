@@ -12,14 +12,14 @@ import rx.subscriptions.CompositeSubscription
 
 class MainActivity : AppCompatActivity() {
 
-    private var apiManager: ApiManager? = null
     var dataList = arrayListOf<Category>()
-    val mCompositeSubscription : CompositeSubscription? = CompositeSubscription()
+
+    val api = ApiConfig("http://ayurvedchikitsa.xperttech.in/")
+    val mCompositeSubscription: CompositeSubscription? = CompositeSubscription()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        apiManager = ApiManager(this)
         SendData()
 
     }
@@ -31,9 +31,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun SendData() {
 
-        val login : Observable<CategoryList> = apiManager!!.callLoginApi(10 , 0)
+        val call = applySchedulers(this@MainActivity)
+        val apiObservable: Observable<CategoryList> =
+            api.getClientWithHeader("token")!!.create(API::class.java).categoryApi(10, 0)
+        val loginchk: Observable<CategoryList> =
+            call.call(apiObservable).compose(call.applySchedulers())
 
-        val subscription = login.subscribe(object : Observer<CategoryList> {
+        val subscription = loginchk.subscribe(object : Observer<CategoryList> {
             override fun onError(e: Throwable?) {
             }
 
@@ -43,7 +47,8 @@ class MainActivity : AppCompatActivity() {
                 rv_add_new_friend.layoutManager = LinearLayoutManager(this@MainActivity)
                 rv_add_new_friend.adapter = AddNewFriendAdapter(
                     this@MainActivity,
-                    dataList)
+                    dataList
+                )
             }
 
             override fun onCompleted() {
